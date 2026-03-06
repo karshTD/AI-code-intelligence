@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Code Intelligence — {{TITLE}}</title>
+  <style>
+    /* Catppuccin Mocha color palette — harmonizes with VS Code dark themes */
+    :root {
+      --bg:        #1e1e2e;
+      --surface0:  #313244;
+      --surface1:  #45475a;
+      --overlay0:  #6c7086;
+      --text:      #cdd6f4;
+      --subtext1:  #bac2de;
+      --blue:      #89b4fa;
+      --lavender:  #b4befe;
+      --green:     #a6e3a1;
+      --yellow:    #f9e2af;
+      --red:       #f38ba8;
+      --peach:     #fab387;
+      --mauve:     #cba6f7;
+      --teal:      #94e2d5;
+      --font-mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      --font-ui:   'Segoe UI', system-ui, sans-serif;
+      --radius:    10px;
+      --gap:       1.2rem;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-ui);
+      font-size: 14px;
+      line-height: 1.6;
+      padding: 1.5rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* ── Page header ──────────────────────────────────────────────── */
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.8rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--surface0);
+    }
+    .page-header .logo { font-size: 1.6rem; }
+    .page-header h1 { font-size: 1.3rem; font-weight: 700; color: var(--blue); }
+    .page-header .subtitle { font-size: 0.8rem; color: var(--overlay0); }
+
+    /* ── Cards ────────────────────────────────────────────────────── */
+    .card {
+      background: var(--surface0);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      margin-bottom: var(--gap);
+      border: 1px solid var(--surface1);
+      animation: fadeIn 0.25s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--lavender);
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    h3 { font-size: 0.9rem; color: var(--subtext1); margin: 0.9rem 0 0.5rem; }
+
+    /* ── Complexity section ───────────────────────────────────────── */
+    .complexity-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.6rem;
+    }
+    .complexity-badge {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--yellow);
+      background: rgba(249,226,175,0.12);
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+    }
+    .reasoning { color: var(--subtext1); font-size: 0.88rem; font-style: italic; }
+
+    /* ── Badges ───────────────────────────────────────────────────── */
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.2rem 0.55rem;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge-success { background: rgba(166,227,161,0.18); color: var(--green); }
+    .badge-warn    { background: rgba(249,226,175,0.18); color: var(--yellow); }
+    .badge-info    { background: rgba(137,180,250,0.18); color: var(--blue); }
+
+    /* ── Code blocks ──────────────────────────────────────────────── */
+    .code-block {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      background: var(--bg);
+      border: 1px solid var(--surface1);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: var(--teal);
+      line-height: 1.7;
+    }
+
+    /* ── Explanation text ─────────────────────────────────────────── */
+    .explanation { line-height: 1.75; color: var(--text); }
+    .explanation p { margin-bottom: 0.6rem; }
+    .explanation h3 { color: var(--blue); }
+    .explanation strong { color: var(--peach); }
+    .explanation code {
+      font-family: var(--font-mono);
+      background: var(--bg);
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.85em;
+      color: var(--mauve);
+    }
+    .explanation li { margin-left: 1.4rem; margin-bottom: 0.25rem; }
+
+    /* ── Stats grid ───────────────────────────────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .stat {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 0.7rem;
+      text-align: center;
+      border: 1px solid var(--surface1);
+    }
+    .stat-val { display: block; font-size: 1.4rem; font-weight: 700; color: var(--blue); }
+    .stat-lbl { display: block; font-size: 0.72rem; color: var(--overlay0); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* ── Function table ───────────────────────────────────────────── */
+    .fn-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 0.4rem;
+    }
+    .fn-table th {
+      text-align: left;
+      padding: 0.4rem 0.6rem;
+      color: var(--overlay0);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--surface1);
+    }
+    .fn-table td {
+      padding: 0.45rem 0.6rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: middle;
+    }
+    .fn-table tr:hover td { background: rgba(255,255,255,0.03); }
+    .fn-name { font-family: var(--font-mono); color: var(--green); font-weight: 600; }
+
+    /* ── Export list ──────────────────────────────────────────────── */
+    .export-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .export-list li code {
+      font-family: var(--font-mono);
+      background: var(--bg);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      color: var(--mauve);
+      font-size: 0.85rem;
+    }
+
+    /* ── Footer ───────────────────────────────────────────────────── */
+    .provider-info {
+      text-align: right;
+      font-size: 0.75rem;
+      color: var(--overlay0);
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--surface0);
+    }
+
+    /* ── Scrollbar ────────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--surface1); border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <header class="page-header">
+    <span class="logo">🤖</span>
+    <div>
+      <h1>AI Code Intelligence — {{TITLE}}</h1>
+      <div class="subtitle">AST analysis · complexity estimation · AI-powered explanation</div>
+    </div>
+  </header>
+
+  <main>{{BODY}}</main>
+</body>
+</html>

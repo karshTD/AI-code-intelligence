@@ -1,0 +1,76 @@
+{
+  "name": "ai-code-intelligence",
+  "displayName": "AI Code Intelligence",
+  "description": "AI-powered code analysis: AST parsing, complexity estimation, documentation generation, and plain-English explanations.",
+  "version": "0.1.0",
+  "publisher": "ai-code-intelligence",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other", "Programming Languages"],
+  "icon": "assets/icon.png",
+  "keywords": ["ai", "code analysis", "documentation", "complexity", "ast"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourrepo/ai-code-intelligence"
+  },
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "aiCodeIntel.analyzeFunction",
+        "title": "AI: Analyze Selected Code",
+        "category": "AI Code Intelligence"
+      },
+      {
+        "command": "aiCodeIntel.summarizeFile",
+        "title": "AI: Summarize This File",
+        "category": "AI Code Intelligence"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "aiCodeIntel.analyzeFunction",
+          "when": "editorHasSelection",
+          "group": "z_ai@1"
+        },
+        {
+          "command": "aiCodeIntel.summarizeFile",
+          "when": "editorIsOpen",
+          "group": "z_ai@2"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "AI Code Intelligence",
+      "properties": {
+        "aiCodeIntel.backendUrl": {
+          "type": "string",
+          "default": "http://localhost:8000",
+          "description": "Base URL of the AI Code Intelligence backend server."
+        },
+        "aiCodeIntel.requestTimeoutMs": {
+          "type": "number",
+          "default": 30000,
+          "description": "Maximum time (ms) to wait for a backend analysis response."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0"
+  }
+}
