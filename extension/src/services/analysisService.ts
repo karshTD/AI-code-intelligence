@@ -19,6 +19,8 @@ import * as vscode from 'vscode';
 import { BackendClient } from '../api/backendClient';
 import type { AnalysisResult, FileSummaryResult } from '../types/analysis';
 
+
+const _outputChannel = vscode.window.createOutputChannel('AI Code Intelligence');
 /** Maximum code length we'll send to the backend (soft guard). */
 const MAX_CODE_LENGTH = 50_000;
 
@@ -70,11 +72,13 @@ export class AnalysisService {
         const cached = _resultCache.get(cacheKey);
         if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
             // Cache hit — log to extension output channel (no console in strict tsconfig target)
-            void `[AnalysisService] Cache hit for ${cacheKey}`;
+            _outputChannel.appendLine(`[AnalysisService] Cache hit for ${cacheKey}`);
+
             return cached.result;
         }
 
         // ── Network call ─────────────────────────────────────────────────────────
+        _outputChannel.appendLine(`[Cache] Miss - fetching from backend for key: ${cacheKey}`);
         const result = await this._client.analyze({ code, language, file_path: filePath });
 
         // Cache the result

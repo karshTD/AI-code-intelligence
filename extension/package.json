@@ -3,14 +3,14 @@
   "displayName": "AI Code Intelligence",
   "description": "AI-powered code analysis: AST parsing, complexity estimation, documentation generation, and plain-English explanations.",
   "version": "0.1.0",
-  "publisher": "ai-code-intelligence",
+  "publisher": "karshTD",
   "engines": { "vscode": "^1.85.0" },
-  "categories": ["Other", "Programming Languages"],
+  "categories": ["Other", "Programming Languages", "Education", "Visualization", "Snippets"],
   "icon": "assets/icon.png",
   "keywords": ["ai", "code analysis", "documentation", "complexity", "ast"],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourrepo/ai-code-intelligence"
+    "url": "https://github.com/karshTD/AI-code-intelligence.git"
   },
   "activationEvents": [],
   "main": "./out/extension.js",

@@ -12,8 +12,6 @@
  */
 
 import * as vscode from 'vscode';
-import * as path from 'path';
-import * as fs from 'fs';
 import type { AnalysisResult, FileSummaryResult } from '../types/analysis';
 
 export class ResultsPanel {
@@ -36,6 +34,7 @@ export class ResultsPanel {
 
         if (ResultsPanel._instance) {
             ResultsPanel._instance._panel.reveal(column);
+            ResultsPanel._instance._panel.title = title;
         } else {
             const panel = vscode.window.createWebviewPanel(
                 ResultsPanel.viewType,
@@ -44,7 +43,10 @@ export class ResultsPanel {
                 {
                     enableScripts: true,
                     // Restrict local resource loading to the extension's webview directory
-                    localResourceRoots: [vscode.Uri.joinPath(extensionUri, 'src', 'ui', 'webview')],
+                    localResourceRoots: [
+                        vscode.Uri.joinPath(extensionUri, 'src', 'ui', 'webview'),
+                        extensionUri, // needed for packaged extensions
+                    ],
                 }
             );
             ResultsPanel._instance = new ResultsPanel(panel, extensionUri);
@@ -190,18 +192,15 @@ export class ResultsPanel {
     // ── Helpers ───────────────────────────────────────────────────────────────
 
     private _loadTemplate(): string {
-        const templatePath = path.join(
-            this._extensionUri.fsPath,
-            'src', 'ui', 'webview', 'panel.html'
-        );
+        const onDiskPath = vscode.Uri.joinPath(this._extensionUri, 'src', 'ui', 'webview', 'panel.html');
         try {
-            return fs.readFileSync(templatePath, 'utf-8');
+            const fs = require('fs');
+            return fs.readFileSync(onDiskPath.fsPath, 'utf-8');
         } catch {
-            // Inline fallback if template file can't be read
-            return '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>{{BODY}}</body></html>';
+            return '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="background:#1e1e2e;color:#cdd6f4;font-family:system-ui;padding:2rem;">{{BODY}}</body></html>';
         }
     }
-
+    
     private _markdownToHtml(md: string): string {
         // Minimal markdown → HTML: bold, code, headings, lists
         return ResultsPanel._escape(md)

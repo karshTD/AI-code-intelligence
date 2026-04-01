@@ -36,6 +36,12 @@ class ComplexityAnalyzer:
 
         # ── Rule table ────────────────────────────────────────────────────────
         # Rules are checked in order; first match wins.
+        if has_recusion and conditional_count >=1 and loop_count == 0:  # pyright: ignore[reportUndefinedVariable]
+            return{
+                "estimate": "O(2^n)",
+                "reasoning": "Detected recursion combined with conditional statements and no loops. This often indicates exponential growth.",
+                "confidence": "medium",
+            }
 
         if recursion and depth >= 2:
             return ComplexityInfo(
