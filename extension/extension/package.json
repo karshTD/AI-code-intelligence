@@ -2,7 +2,7 @@
   "name": "ai-code-intelligence",
   "displayName": "AI Code Intelligence",
   "description": "AI-powered code analysis: AST parsing, complexity estimation, documentation generation, and plain-English explanations.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "karshTD",
   "engines": { "vscode": "^1.85.0" },
   "categories": ["Other", "Programming Languages", "Education", "Visualization", "Snippets"],
@@ -46,7 +46,7 @@
       "properties": {
         "aiCodeIntel.backendUrl": {
           "type": "string",
-          "default": "http://localhost:8000",
+          "default": "https://ai-code-intelligence.onrender.com",
           "description": "Base URL of the AI Code Intelligence backend server."
         },
         "aiCodeIntel.requestTimeoutMs": {
