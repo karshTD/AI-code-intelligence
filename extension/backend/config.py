@@ -19,18 +19,14 @@ class Settings(BaseSettings):
     allowed_origins: list[str] = ["*"]  # Tighten for production
 
     # ── LLM Provider ─────────────────────────────────────────────────────────
-    # Set to "groq", "openai", or "anthropic". Falls back to "mock" if no key is found.
-    llm_provider: str = "groq"
+    # Set to "openai" or "anthropic". Falls back to "mock" if no key is found.
+    llm_provider: str = "openai"
 
-    # ── Groq ──────────────────────────────────────────────────────────────────
-    groq_api_key: str = ""
-    groq_model: str = "llama-3.3-70b-versatile" 
-
-    # ── OpenAI ────────────────────────────────────────────────────────────────
+    # ── OpenAI ───────────────────────────────────────────────────────────────
     openai_api_key: str = ""
     openai_model: str = "gpt-4o-mini"
 
-    # ── Anthropic ─────────────────────────────────────────────────────────────
+    # ── Anthropic ────────────────────────────────────────────────────────────
     anthropic_api_key: str = ""
     anthropic_model: str = "claude-3-5-haiku-20241022"
 
@@ -43,8 +39,6 @@ class Settings(BaseSettings):
         Resolve which LLM provider to actually use.
         Falls back to 'mock' so the system works without API keys (useful for dev/testing).
         """
-        if self.llm_provider == "groq" and self.groq_api_key:
-            return "groq"
         if self.llm_provider == "openai" and self.openai_api_key:
             return "openai"
         if self.llm_provider == "anthropic" and self.anthropic_api_key:
