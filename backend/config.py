@@ -13,7 +13,7 @@ from functools import lru_cache
 class Settings(BaseSettings):
     # ── Server ────────────────────────────────────────────────────────────────
     app_name: str = "AI Code Intelligence Platform"
-    app_version: str = "0.1.0"
+    app_version: str = "0.1.1"
     debug: bool = False
     port: int = 8000
     allowed_origins: list[str] = ["*"]  # Tighten for production
