@@ -5,7 +5,7 @@
 ## Architecture
 
 ```
-VS Code Extension (TypeScript)
+VS Code Extension (TypeScript))
         │  HTTP POST /api/v1/analyze
         ▼
 FastAPI Backend (Python)
